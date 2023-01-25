@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:you_are_coffee/kakaoLogin.dart';
 import 'package:you_are_coffee/main_view_model.dart';
-
+//jdk 문제 업데이트
 import 'key.dart';
 
 void main() {
