@@ -17,9 +17,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-      ),
       home: const MyHomePage(title: 'You Are Coffee'),
     );
   }
@@ -43,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 204, 204, 100),
         title: Text(widget.title),
       ),
       body: Center(
