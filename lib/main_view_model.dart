@@ -9,7 +9,7 @@ class MainViewModel{
   MainViewModel(this._socialLogin);
   //로그인 기능의 로그인
   Future login() async{
-    isLogined =await _socialLogin.login();//로그인을 시도
+    isLogined = await _socialLogin.login();//로그인을 시도
     if(isLogined) {
       user = await UserApi.instance.me();//로그인이 성공하면 유저정보를 가져옴
     }

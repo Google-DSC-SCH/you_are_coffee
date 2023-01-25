@@ -6,7 +6,7 @@ import 'package:you_are_coffee/main_view_model.dart';
 import 'key.dart';
 
 void main() {
-  KakaoSdk.init(nativeAppKey: NativeAppKey);
+  KakaoSdk.init(nativeAppKey: '3574fc08f6284dba4a884e95dd18d556');
   runApp(const MyApp());
 }
 
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 204, 204, 100),
+        backgroundColor: Color.fromARGB(128, 255, 204, 204),
         title: Text(widget.title),
       ),
       body: Center(
