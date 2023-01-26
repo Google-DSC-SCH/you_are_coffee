@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:you_are_coffee/kakaoLogin.dart';
 import 'package:you_are_coffee/main_view_model.dart';
+import 'package:get/get.dart';
 //jdk 문제 업데이트
+import 'Screens/mainPage.dart';
 import 'key.dart';
 
 void main() {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(//Get으로 변경함
       home: const MyHomePage(title: 'You Are Coffee'),
     );
   }
@@ -76,6 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 },
                 child: Text('Logout')
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  print('move main page');
+                  Get.to(MainPage());
+                },
+                child: Text('Main')
             ),
           ],
         ),

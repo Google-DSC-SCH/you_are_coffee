@@ -16,7 +16,7 @@ class KaKaoLogin implements SocialLogin {
           return false;
         }
       }
-     return true;
+      return true;
     }catch(e) {
       return false;
     }
@@ -32,17 +32,3 @@ class KaKaoLogin implements SocialLogin {
     }
   }
 }
-
-/*
-카카오 버튼
-child: GestureDetector(
-onTap: () {
-debugPrint('The image button has been tapped');
-},
-child: SizedBox(
-width: 360,
-height: 60,
-child: Image.asset('images/kakao_login_large_narrow.png')
-),
-),
- */
