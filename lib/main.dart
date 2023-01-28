@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(//Get으로 변경함
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'You Are Coffee'),
     );
   }
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(128, 255, 204, 204),
+        backgroundColor: Colors.red[200],
         title: Text(widget.title),
       ),
       body: Center(
