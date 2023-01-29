@@ -1,10 +1,10 @@
-class coffeeImage {
+class coffeeLike {
   late final int like_id;
   late final int user_id;
   late final int coffee_id;
   late final bool like;
 
-  coffeeImage({required this.like_id, required this.user_id, required this.coffee_id, required this.like});
+  coffeeLike({required this.like_id, required this.user_id, required this.coffee_id, required this.like});
 }
 
 // < COFFEE_LIKE >

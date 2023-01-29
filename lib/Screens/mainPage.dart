@@ -12,23 +12,97 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin{
-
+   List<Map<String, dynamic>> _allCoffees=[];
   // 모든 커피 데이터
-  //List Coffee를 초기화하기 위해서는 Coffee맵을 static으로 선언해야 참조대상인 인스턴스가 변동없음을 확인 시켜줄 수가 있다.
-  static List<Map<String, dynamic>> _allCoffees =[
-    {"id" : 1, "name" : "아메리카노", "imgPath" : "images/coffee/americano.jpg", "flavor" : "쓴맛, 신맛", "description" : "아메리카노는 써"},
-    {"id" : 2, "name" : "카푸치노", "imgPath" : "images/coffee/cappuccino.jpg", "flavor" : "쓴맛, 떫은맛", "description" : "카푸치노는 몰라"},
-    {"id" : 3, "name" : "에스프레소", "imgPath" : "images/coffee/espresso.jpg", "flavor" : "쓴맛, 완전 쓴맛", "description" : "에스프레소는 완전 써"},
-    {"id" : 4, "name" : "라떼", "imgPath" : "images/coffee/latte.jpg", "flavor" : "단맛, 꾸덕한맛", "description" : "라떼는 달아"},
-    {"id" : 5, "name" : "마끼아또", "imgPath" : "images/coffee/macciato.jpg", "flavor" : "쓴맛, 단맛", "description" : "마끼아또는 달콤해"},
-    {"id" : 6, "name" : "모카", "imgPath" : "images/coffee/mocha.jpg", "flavor" : "쓴맛, 모카향", "description" : "모카는 풍미가 좋아"},
-    {"id" : 7, "name" : "아메리카노", "imgPath" : "images/coffee/americano.jpg", "flavor" : "쓴맛, 신맛", "description" : "아메리카노는 써"},
-    {"id" : 8, "name" : "카푸치노", "imgPath" : "images/coffee/cappuccino.jpg", "flavor" : "쓴맛, 떫은맛", "description" : "카푸치노는 몰라"},
-    {"id" : 9, "name" : "에스프레쏘", "imgPath" : "images/coffee/espresso.jpg", "flavor" : "쓴맛, 완전 쓴맛", "description" : "에스프레소는 완전 써"},
-    {"id" : 10, "name" : "라떼", "imgPath" : "images/coffee/latte.jpg", "flavor" : "단맛, 꾸덕한맛", "description" : "라떼는 달아"},
-    {"id" : 11, "name" : "마끼아또", "imgPath" : "images/coffee/macciato.jpg", "flavor" : "쓴맛, 단맛", "description" : "마끼아또는 달콤해"},
-    {"id" : 12, "name" : "모카", "imgPath" : "images/coffee/mocha.jpg", "flavor" : "쓴맛, 모카향", "description" : "모카는 풍미가 좋아"},
-  ];
+  //List Coffee를 초기화하기 위해서는 Coffee맵을 생성자에서 초기화 선언해야 참조대상인 인스턴스가 변동없음을 확인 시켜줄 수가 있다.
+  _MainPageState() {
+    this._allCoffees = [
+      {
+        "id": 1,
+        "name": "아메리카노",
+        "imgPath": "images/coffee/americano.jpg",
+        "flavor": "쓴맛, 신맛",
+        "description": "아메리카노는 써",
+      },
+      {
+        "id": 2,
+        "name": "카푸치노",
+        "imgPath": "images/coffee/cappuccino.jpg",
+        "flavor": "쓴맛, 떫은맛",
+        "description": "카푸치노는 몰라",
+      },
+      {
+        "id": 3,
+        "name": "에스프레소",
+        "imgPath": "images/coffee/espresso.jpg",
+        "flavor": "쓴맛, 완전 쓴맛",
+        "description": "에스프레소는 완전 써",
+      },
+      {
+        "id": 4,
+        "name": "라떼",
+        "imgPath": "images/coffee/latte.jpg",
+        "flavor": "단맛, 꾸덕한맛",
+        "description": "라떼는 달아",
+      },
+      {
+        "id": 5,
+        "name": "마끼아또",
+        "imgPath": "images/coffee/macciato.jpg",
+        "flavor": "쓴맛, 단맛",
+        "description": "마끼아또는 달콤해",
+      },
+      {
+        "id": 6,
+        "name": "모카",
+        "imgPath": "images/coffee/mocha.jpg",
+        "flavor": "쓴맛, 모카향",
+        "description": "모카는 풍미가 좋아",
+      },
+      {
+        "id": 7,
+        "name": "아메리카노",
+        "imgPath": "images/coffee/americano.jpg",
+        "flavor": "쓴맛, 신맛",
+        "description": "아메리카노는 써",
+      },
+      {
+        "id": 8,
+        "name": "카푸치노",
+        "imgPath": "images/coffee/cappuccino.jpg",
+        "flavor": "쓴맛, 떫은맛",
+        "description": "카푸치노는 몰라",
+      },
+      {
+        "id": 9,
+        "name": "에스프레쏘",
+        "imgPath": "images/coffee/espresso.jpg",
+        "flavor": "쓴맛, 완전 쓴맛",
+        "description": "에스프레소는 완전 써",
+      },
+      {
+        "id": 10,
+        "name": "라떼",
+        "imgPath": "images/coffee/latte.jpg",
+        "flavor": "단맛, 꾸덕한맛",
+        "description": "라떼는 달아",
+      },
+      {
+        "id": 11,
+        "name": "마끼아또",
+        "imgPath": "images/coffee/macciato.jpg",
+        "flavor": "쓴맛, 단맛",
+        "description": "마끼아또는 달콤해",
+      },
+      {
+        "id": 12,
+        "name": "모카",
+        "imgPath": "images/coffee/mocha.jpg",
+        "flavor": "쓴맛, 모카향",
+        "description": "모카는 풍미가 좋아",
+      },
+    ];
+  }
   //커피 찾기로 받을 리스트
   List<Map<String, dynamic>> _foundCoffees =[];
 
@@ -36,8 +110,10 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
   Widget customSearchBar = const Text('어떤 커피를 찾으시나요?');
 
   //커피리스트를 생성해서 커피 객체로 초기화 하는 방식
-  final List<Coffee> coffeeData = List.generate(_allCoffees.length, (index) =>
-      Coffee(_allCoffees[index]['name'],_allCoffees[index]['imgPath'],_allCoffees[index]['flavor'], _allCoffees[index]['description'] ));
+   late List<Coffee> coffeeData = List.generate(_allCoffees.length, (index) =>
+      Coffee(_allCoffees[index]['id'],_allCoffees[index]['name'],_allCoffees[index]['imgPath'],_allCoffees[index]['flavor'], _allCoffees[index]['description'] ),
+    growable: true,
+  );
       //Coffee(coffeeName[index],coffeeImagePath[index],coffeeFlavor[index], coffeeDescription[index] ));
 
   //플로팅액션버튼에 사용하는 것들
@@ -177,6 +253,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
               const SizedBox(
                 height: 20,
               ),
+              //검색 기능 추가하기
               TextField(
                 obscureText: false,
                 onChanged: (value) => _runFilter(value),
@@ -205,7 +282,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                         ),
                         title: Text(_foundCoffees[index]["name"]),
                         subtitle: Text(_foundCoffees[index]["flavor"]),
-                        onTap: (){Navigator.of(context).push(MaterialPageRoute(
+                        onTap: (){Navigator.of(context).push(MaterialPageRoute(//페이지 이동 Coffee데이터 호출하며이동
                             builder: (context) => CoffeePage(coffee: coffeeData[index],)));
                         debugPrint(coffeeData[index].name);
                         },
