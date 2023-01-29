@@ -308,60 +308,6 @@ class _CoffeePageState extends State<CoffeePage> {
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 children: [
-                                  //댓글은 Container 하나
-                                  Container(
-                                    padding: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.brown,
-                                    ),
-                                    color: Colors.brown[50],
-                                  ),
-
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text('User ID',
-                                              style:TextStyle(fontSize: 20,decorationThickness: 2,)
-                                          ),
-                                          RatingBar(
-                                            itemSize: 27,
-                                            initialRating: 3,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: true,
-                                            ratingWidget: RatingWidget(
-                                                full: const Icon(Icons.star, color: Colors.orange),
-                                                half: const Icon(
-                                                  Icons.star_half,
-                                                  color: Colors.orange,
-                                                ),
-                                                empty: const Icon(
-                                                  Icons.star_outline,
-                                                  color: Colors.orange,
-                                                )
-                                            ), onRatingUpdate: (double value) {  },
-                                          ),
-                                          //별점출력
-                                          Text('3.0',
-                                              style:TextStyle(fontSize: 17)
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 5,),
-                                      //댓글 내용
-                                      Text(
-                                        '맛있고 향이 좋아요',
-                                        style:TextStyle(fontSize: 15)
-                                      ),
-                                    ],
-
-                                  )
-                                  ),
-
                                   CheckComment(coffee.ID)[0],
                                   CheckComment(coffee.ID)[1],
                                   CheckComment(coffee.ID)[2]
