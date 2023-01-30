@@ -294,7 +294,6 @@ class _CoffeePageState extends State<CoffeePage> {
                               ),
                             ],
                           ),
-
                           // 여백 넣은거
                           const SizedBox(
                             height: 20,
@@ -308,14 +307,11 @@ class _CoffeePageState extends State<CoffeePage> {
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 children: [
-                                  CheckComment(coffee.ID)[0],
-                                  CheckComment(coffee.ID)[1],
-                                  CheckComment(coffee.ID)[2]
+                                  ...CheckComment(coffee.ID)
                         ],
                               ),
                             ),
-                          )
-                        ],
+                          )                        ],
                       ),
                     )
                 )

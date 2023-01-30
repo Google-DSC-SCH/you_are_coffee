@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:like_button/like_button.dart';
 import '../Data/Coffee/coffee.dart';
+import 'camera.dart';
 import 'coffee_Page.dart';
 import 'model.dart';
 
@@ -160,7 +163,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                 ),
                 //내가 좋아한 커피 확인 위젯
                 ListTile(
-                  leading: Image.asset('images/coffee/Americano.jpg'),
+                  leading: Image.asset('images/coffee/americano.jpg'),
                   title: Text('Americano', style: TextStyle(fontSize: 20)),
                   onTap: () {
                     print('Americano is clicked');
@@ -313,26 +316,10 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                 backgroundColor: Colors.red,
                 //카메라 팝업 출력되는 이벤트 발생
                 onPressed: () {
-                  showCameraPopup(context);
+                      Get.to(CameraPage());
                 },
                 child: const Icon(
                   Icons.camera_alt_outlined,
-                ),
-              ),
-            ),
-            Transform(
-              transform: Matrix4.translationValues(
-                0,
-                _translateButton.value * 2,
-                0,
-              ),
-              child: FloatingActionButton(
-                backgroundColor: Colors.amber,
-                onPressed: () {
-                  showCameraPopup(context);
-                },
-                child: const Icon(
-                    Icons.photo_camera_back
                 ),
               ),
             ),
@@ -593,275 +580,4 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
     );
   }
 }
-
-
-
-/*
-MainCoffeeTile() ct1 =new MainCoffeeTile(imageLink: 'images/coffee/Americano.jpg',)
-//메인화면에 커피 타일을 생성하는 클래스(_MainCoffeeTileState와 묶음이다.)
-class MainCoffeeTile extends StatefulWidget{
-
-  MainCoffeeTile({super.key, required this.imageLink, required this.coffeeName, required this.flavor1,required this.flavor2});
-
-  late String imageLink = 'images/coffee/coffee.jpg';//이미지 링크
-  late String coffeeName = '커피';
-  late String flavor1 = '맛';
-  late String flavor2 = '맛';
-
-  @override
-  State<MainCoffeeTile> createState() => _MainCoffeeTileState();
-}
-
-
-//coffeeTile 자체를 Stateful위젯으로 생성해서 클릭시 설명 위젯 띄우는 메서드를 이용
-class _MainCoffeeTileState extends State<MainCoffeeTile>{
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Image.asset(widget.imageLink),
-      title: Text(widget.coffeeName, style: TextStyle(fontSize: 20)),
-      subtitle: Text('#${widget.flavor1}, #${widget.flavor2}'),
-      onTap: () {
-        print('${widget.coffeeName} is clicked');
-        showCoffeePopup(context, widget.imageLink, widget.coffeeName, widget.flavor1, widget.flavor2);
-      },
-      trailing: Icon(Icons.favorite, color: Colors.grey),
-    );
-  }
-
-  // 커피 상세정보 창
-  void showCoffeePopup(context, imageLink, coffeeName, flavor1, flavor2) {
-    double _ratingValue = 3;
-    bool isLiked = false;
-    String description = '커피상세설명\n설명\n설명설명\n설명\n설명\n설명\n설명설명설명';
-
-    showDialog(
-        context: context,
-        builder: (context){
-          return Dialog(
-            // 댓글작성용 키보드 나타날 때, 화면 스크롤 넣어서 화면 잘리는 오류 방지
-            child:SingleChildScrollView(
-              child: Column(
-                  children: [
-                    Container(
-                        width: MediaQuery.of(context).size.width*0.8,
-                        height: MediaQuery.of(context).size.height*0.8,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                          child: Column(
-                            children: [
-                              // 커피 이미지, 이름, 맛, 별점 항목란
-                              Row(
-                                children: [
-                                  //커피 이미지
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
-                                      imageLink,
-                                      width: 100,
-                                      height: 100,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 30,
-                                  ),
-                                  // 커피 이름, 맛, 별점
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(coffeeName,
-                                            style: const TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          LikeButton(
-                                            size: 20,
-                                            isLiked: isLiked,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(0),
-                                        child: Text(
-                                          '#$flavor1, #$flavor2',
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey[500]
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      RatingBar(
-                                          initialRating: 0,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 20,
-                                          ratingWidget: RatingWidget(
-                                              full: const Icon(Icons.star, color: Colors.orange),
-                                              half: const Icon(
-                                                Icons.star_half,
-                                                color: Colors.orange,
-                                              ),
-                                              empty: const Icon(
-                                                Icons.star_outline,
-                                                color: Colors.orange,
-                                              )),
-                                          onRatingUpdate: (value) {
-                                            setState(() {
-                                              _ratingValue = value;
-                                            });
-                                          }),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-
-                              // 커피 상세설명
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width*0.7,
-                                child: Text(
-                                  description,
-                                  maxLines: 7,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[700]
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-
-                              // 상세설명글과 댓글 사이의 구분선
-                              Divider(
-                                height: 30.0,
-                                color: Colors.brown[600],
-                                thickness: 1,
-                                endIndent: 30,
-                              ),
-
-                              // 사용자 평가 항목
-                              const Text(
-                                '평가 및 리뷰',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey
-                                ),
-                              ),
-                              RatingBar(
-                                  initialRating: 0,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 20,
-                                  ratingWidget: RatingWidget(
-                                      full: const Icon(Icons.star, color: Colors.orange),
-                                      half: const Icon(
-                                        Icons.star_half,
-                                        color: Colors.orange,
-                                      ),
-                                      empty: const Icon(
-                                        Icons.star_outline,
-                                        color: Colors.orange,
-                                      )),
-                                  onRatingUpdate: (value) {
-                                    setState(() {
-                                      _ratingValue = value;
-                                    });
-                                  }),
-
-                              // 여백 넣은거
-                              const SizedBox(
-                                height: 10,
-                              ),
-
-                              // 사용자 평가 항목 - 리뷰작성 텍스트필드, 메시지전송버튼
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width*0.6,
-                                      child: const TextField(
-                                        decoration: InputDecoration(
-                                          labelText: 'Reply',
-                                          hintText: 'Enter your review',
-                                          labelStyle: TextStyle(color: Colors.redAccent),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                            borderSide: BorderSide(width: 1, color: Colors.redAccent),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                            borderSide: BorderSide(width: 1, color: Colors.redAccent),
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                          ),
-                                        ),
-                                        keyboardType: TextInputType.emailAddress,
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.mail_outline, size: 40),
-                                    color: Colors.grey[600],
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              ),
-
-                              // 여백 넣은거
-                              const SizedBox(
-                                height: 20,
-                              ),
-
-
-                              // ***********************
-                              /* ** 댓글 기능 넣을 부분 ** */
-                              // **********************
-
-
-                              // 팝업 닫기 버튼
-                              ElevatedButton.icon(
-                                onPressed: (){
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(Icons.close),
-                                label: const Text('close'),
-                              ),
-                            ],
-                          ),
-                        )
-                    )
-                  ]
-              ),
-            ),
-          );
-        }
-    );
-  }
-}
-*/
 
