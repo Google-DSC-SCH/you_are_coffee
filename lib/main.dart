@@ -3,6 +3,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:you_are_coffee/kakaoLogin.dart';
 import 'package:you_are_coffee/main_view_model.dart';
 import 'package:get/get.dart';
+import 'package:you_are_coffee/main_view_model.dart';
 //jdk 문제 업데이트
 import 'Screens/mainPage.dart';
 import 'key.dart';
@@ -34,8 +35,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
 
+
+class _MyHomePageState extends State<MyHomePage> {
   //main View모델 생성하고 객체 전달
   final viewModel = MainViewModel(KaKaoLogin());
 
@@ -43,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red[200],
+        backgroundColor: Colors.deepOrangeAccent[100],
         title: Text(widget.title),
       ),
       body: Center(
@@ -58,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
             GestureDetector(
               onTap: () async{
                 await viewModel.login();
+                print(viewModel.user?.kakaoAccount?.profile?.profileImageUrl);
+
                 debugPrint('The login button has been tapped');
                 setState(() {
                 });
@@ -75,15 +79,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: ()async{
                   await viewModel.logout();
                   setState(() {
-
                   });
                 },
                 child: Text('Logout')
             ),
             ElevatedButton(
                 onPressed: () {
-                  print('move main page');
-                  Get.to(MainPage());
+                  if(viewModel.isLogined==true) {
+                    print('move main page');
+                    Get.to(() => MainPage(), arguments: [
+                      {
+                        viewModel.user?.kakaoAccount?.profile
+                            ?.nickname?? 'coffee lover'
+                      },
+                      {
+                        viewModel.user?.kakaoAccount?.profile
+                            ?.profileImageUrl?? 'images/User_Profile_Image.jpg'
+                      },
+                      {viewModel.user?.kakaoAccount?.email?? '@@'}
+                    ]);
+                  }
+                  else {
+                    print('로그인 실패');
+                  }
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => MainPage())
+                  // );
                 },
                 child: Text('Main')
             ),

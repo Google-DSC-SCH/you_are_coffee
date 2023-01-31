@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:like_button/like_button.dart';
+import 'package:you_are_coffee/Data/Users/user.dart';
 import '../Data/Coffee/coffee.dart';
 import 'camera.dart';
 import 'coffee_Page.dart';
@@ -15,7 +16,7 @@ class MainPage extends StatefulWidget{
 }
 
 class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin{
-   List<Map<String, dynamic>> _allCoffees=[];
+  List<Map<String, dynamic>> _allCoffees=[];
   // 모든 커피 데이터
   //List Coffee를 초기화하기 위해서는 Coffee맵을 생성자에서 초기화 선언해야 참조대상인 인스턴스가 변동없음을 확인 시켜줄 수가 있다.
   _MainPageState() {
@@ -113,11 +114,11 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
   Widget customSearchBar = const Text('어떤 커피를 찾으시나요?');
 
   //커피리스트를 생성해서 커피 객체로 초기화 하는 방식
-   late List<Coffee> coffeeData = List.generate(_allCoffees.length, (index) =>
+  late List<Coffee> coffeeData = List.generate(_allCoffees.length, (index) =>
       Coffee(_allCoffees[index]['id'],_allCoffees[index]['name'],_allCoffees[index]['imgPath'],_allCoffees[index]['flavor'], _allCoffees[index]['description'] ),
     growable: true,
   );
-      //Coffee(coffeeName[index],coffeeImagePath[index],coffeeFlavor[index], coffeeDescription[index] ));
+  //Coffee(coffeeName[index],coffeeImagePath[index],coffeeFlavor[index], coffeeDescription[index] ));
 
   //플로팅액션버튼에 사용하는 것들
   late AnimationController _animationController;  // Animation controller
@@ -128,127 +129,134 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
 
   double _ratingValue = 3;
 
+
+
   @override
   Widget build(BuildContext context) {
+    String user_Nickname = Get.arguments[0].toString();
+    String user_ImgUrl = Get.arguments[1].toString();
+    String user_Email = Get.arguments[2].toString();
+
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red[200],
-            title: Text('You Are Coffee'),
+        appBar: AppBar(
+          backgroundColor: Colors.deepOrangeAccent[100],
+          title: Text('You Are Coffee'),
 
-            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
         ),
-          //드로어 추가 내가 좋아한 커피 확인페이지
-          drawer: Drawer(
-            // 앱바 왼편에 햄버거 버튼 생성
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                //사용자 정보 업데이트 하는 곳
-                UserAccountsDrawerHeader(
-                  currentAccountPicture: CircleAvatar(
-                    backgroundImage: AssetImage('images/coffee/coffee.jpg'),
-                    backgroundColor: Colors.white,
-                  ),
-                  accountName: Text('UserName'),
-                  accountEmail: Text('UserID'),
-                  decoration: BoxDecoration(
-                      color: Colors.brown[200],
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(40.0),
-                          bottomRight: Radius.circular(40.0))),
+        //드로어 추가 내가 좋아한 커피 확인페이지
+        drawer: Drawer(
+          // 앱바 왼편에 햄버거 버튼 생성
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              //사용자 정보 업데이트 하는 곳
+              UserAccountsDrawerHeader(
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(user_ImgUrl??'images/User_Profile_Image.jpg'),
+                  backgroundColor: Colors.white,
                 ),
-                //내가 좋아한 커피 확인 위젯
-                ListTile(
-                  leading: Image.asset('images/coffee/americano.jpg'),
-                  title: Text('Americano', style: TextStyle(fontSize: 20)),
-                  onTap: () {
-                    print('Americano is clicked');
-                  },
+                accountName: Text(user_Nickname??'default'),
+                accountEmail: Text(user_Email??'@@user'),
+                decoration: BoxDecoration(
+                    color: Colors.brown[200],
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40.0),
+                        bottomRight: Radius.circular(40.0))),
+              ),
+              //내가 좋아한 커피 확인 위젯
+              ListTile(
+                leading: Image.asset('images/coffee/americano.jpg'),
+                title: Text('Americano', style: TextStyle(fontSize: 20)),
+                onTap: () {
+                  print('Americano is clicked');
+                },
 
-                  subtitle: RatingBar(
-                      initialRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      ratingWidget: RatingWidget(
-                          full: const Icon(Icons.star, color: Colors.orange),
-                          half: const Icon(
-                            Icons.star_half,
-                            color: Colors.orange,
-                          ),
-                          empty: const Icon(
-                            Icons.star_outline,
-                            color: Colors.orange,
-                          )),
-                      onRatingUpdate: (value) {
-                        setState(() {
-                          _ratingValue = value;
-                        });
-                      }),
-                ),
-                ListTile(
-                  leading: Image.asset('images/coffee/caffeLatte.jpg'),
-                  title: Text('caffeLatte', style: TextStyle(fontSize: 20)),
-                  onTap: () {
-                    print('caffeLatte is clicked');
-                  },
-                  subtitle: RatingBar(
-                      initialRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      ratingWidget: RatingWidget(
-                          full: const Icon(Icons.star, color: Colors.orange),
-                          half: const Icon(
-                            Icons.star_half,
-                            color: Colors.orange,
-                          ),
-                          empty: const Icon(
-                            Icons.star_outline,
-                            color: Colors.orange,
-                          )),
-                      onRatingUpdate: (value) {
-                        setState(() {
-                          _ratingValue = value;
-                        });
-                      }),
-                ),
-                ListTile(
-                  leading: Image.asset('images/coffee/cappuccino.jpg'),
-                  title: Text('cappuccino', style: TextStyle(fontSize: 20)),
-                  onTap: () {
-                    print('cappuccino is clicked');
-                  },
-                  subtitle: RatingBar(
-                      initialRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      ratingWidget: RatingWidget(
-                          full: const Icon(Icons.star, color: Colors.orange),
-                          half: const Icon(
-                            Icons.star_half,
-                            color: Colors.orange,
-                          ),
-                          empty: const Icon(
-                            Icons.star_outline,
-                            color: Colors.orange,
-                          )),
-                      onRatingUpdate: (value) {
-                        setState(() {
-                          _ratingValue = value;
-                        });
-                      }),
-                ),
-              ],
-            ),
+                subtitle: RatingBar(
+                    initialRating: 0,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    ratingWidget: RatingWidget(
+                        full: const Icon(Icons.star, color: Colors.orange),
+                        half: const Icon(
+                          Icons.star_half,
+                          color: Colors.orange,
+                        ),
+                        empty: const Icon(
+                          Icons.star_outline,
+                          color: Colors.orange,
+                        )),
+                    onRatingUpdate: (value) {
+                      setState(() {
+                        _ratingValue = value;
+                      });
+                    }),
+              ),
+              ListTile(
+                leading: Image.asset('images/coffee/caffeLatte.jpg'),
+                title: Text('caffeLatte', style: TextStyle(fontSize: 20)),
+                onTap: () {
+                  print('caffeLatte is clicked');
+                },
+                subtitle: RatingBar(
+                    initialRating: 0,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    ratingWidget: RatingWidget(
+                        full: const Icon(Icons.star, color: Colors.orange),
+                        half: const Icon(
+                          Icons.star_half,
+                          color: Colors.orange,
+                        ),
+                        empty: const Icon(
+                          Icons.star_outline,
+                          color: Colors.orange,
+                        )),
+                    onRatingUpdate: (value) {
+                      setState(() {
+                        _ratingValue = value;
+                      });
+                    }),
+              ),
+              ListTile(
+                leading: Image.asset('images/coffee/cappuccino.jpg'),
+                title: Text('cappuccino', style: TextStyle(fontSize: 20)),
+                onTap: () {
+                  print('cappuccino is clicked');
+                },
+                subtitle: RatingBar(
+                    initialRating: 0,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    ratingWidget: RatingWidget(
+                        full: const Icon(Icons.star, color: Colors.orange),
+                        half: const Icon(
+                          Icons.star_half,
+                          color: Colors.orange,
+                        ),
+                        empty: const Icon(
+                          Icons.star_outline,
+                          color: Colors.orange,
+                        )),
+                    onRatingUpdate: (value) {
+                      setState(() {
+                        _ratingValue = value;
+                      });
+                    }),
+              ),
+            ],
           ),
+        ),
 
-          //메인 화면 내에 리스트 뷰로 커피들 출력
+        //메인 화면 내에 리스트 뷰로 커피들 출력
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -316,7 +324,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                 backgroundColor: Colors.red,
                 //카메라 팝업 출력되는 이벤트 발생
                 onPressed: () {
-                      Get.to(CameraPage());
+                  Get.to(CameraPage());
                 },
                 child: const Icon(
                   Icons.camera_alt_outlined,
@@ -580,4 +588,3 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
     );
   }
 }
-

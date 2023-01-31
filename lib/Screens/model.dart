@@ -40,5 +40,4 @@ class coffeeScore{
     average_score = (average_score* score_cnt+score)/(score_cnt+1);
     score_cnt++;
   }
-
 }

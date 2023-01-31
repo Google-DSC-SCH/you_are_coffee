@@ -101,7 +101,7 @@ class _CoffeePageState extends State<CoffeePage> {
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.red[200],
+        backgroundColor: Colors.deepOrangeAccent[100],
         title: Text(widget.coffee.name),
       ),
       body: Center(
