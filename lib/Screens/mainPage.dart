@@ -9,6 +9,7 @@ import '../Data/Coffee/coffee.dart';
 import 'camera.dart';
 import 'coffee_Page.dart';
 import 'model.dart';
+import 'package:you_are_coffee/app.dart';
 
 class MainPage extends StatefulWidget{
   @override
