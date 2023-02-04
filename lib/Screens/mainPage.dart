@@ -4,8 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:like_button/like_button.dart';
-import 'package:you_are_coffee/Data/Users/user.dart';
-import '../Data/Coffee/coffee.dart';
+
 import 'camera.dart';
 import 'coffee_Page.dart';
 import 'model.dart';
@@ -107,7 +106,7 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
       },
     ];
   }
-  //커피 찾기로 받을 리스트
+  //커피 찾기로 받을 리스트 나중에 초기화 해야함
   List<Map<String, dynamic>> _foundCoffees =[];
 
   Icon customIcon = const Icon(Icons.search);
@@ -144,10 +143,8 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent[100],
+          backgroundColor: Colors.red[200],
           title: Text('You Are Coffee'),
-
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
         ),
         //드로어 추가 내가 좋아한 커피 확인페이지
         drawer: Drawer(

@@ -4,6 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'camera_Result.dart';
+import 'package:image/image.dart' as img;
+import '../classifier/classifier.dart';
+import '../styles.dart';
+import 'package:you_are_coffee/Widget/plant_photo_view.dart';
+
+const _labelsFileName = 'assets/labels.txt';
+const _modelFileName = 'model_unquant.tflite';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -12,29 +19,42 @@ class CameraPage extends StatefulWidget {
   State<CameraPage> createState() => _CameraPageState();
 }
 
+enum _ResultStatus {
+  notStarted,
+  notFound,
+  found,
+}
+
 class _CameraPageState extends State<CameraPage> {
-  File? _image;
+  bool _isAnalyzing = false;
   final picker = ImagePicker();
+  File? _selectedImageFile;
 
-  // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
-  Future getImage(ImageSource imageSource) async {
-    final image = await picker.pickImage(source: imageSource);
+  // Result
+  _ResultStatus _resultStatus = _ResultStatus.notStarted;
+  String _plantLabel = ''; // Name of Error Message
+  double _accuracy = 0.0;
 
-    setState(() {
-      _image = File(image!.path); // 가져온 이미지를 _image에 저장
-    });
+  late Classifier _classifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClassifier();
   }
 
-  // 이미지를 보여주는 위젯
-  Widget showImage() {
-    return Container(
-        color: const Color(0xffd0cece),
-        width: MediaQuery.of(context).size.width * 0.7,
-        height: MediaQuery.of(context).size.width * 0.8,
-        child: Center(
-            child: _image == null
-                ? Text('No image selected.')
-                : Image.file(File(_image!.path))));
+  Future<void> _loadClassifier() async {
+    debugPrint(
+      'Start loading of Classifier with '
+          'labels at $_labelsFileName, '
+          'model at $_modelFileName',
+    );
+
+    final classifier = await Classifier.loadWith(
+      labelsFileName: _labelsFileName,
+      modelFileName: _modelFileName,
+    );
+    _classifier = classifier!;
   }
 
   @override
@@ -154,56 +174,156 @@ class _CameraPageState extends State<CameraPage> {
               height: 60.0,
             ),
             Text("당신은 어떤 커피일까요?", style: TextStyle(
-              fontSize: 20
+                fontSize: 20
             ),),
             SizedBox(
               height: 40.0,
             ),
-            showImage(),
+            _buildPhotolView(),
             SizedBox(
-              height: 50.0,
+              height: 40.0,
             ),
-
-
-            //카메라 기능
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                // 카메라 촬영 버튼
-                FloatingActionButton(
-                  backgroundColor: Colors.red[200],
-                  child: Icon(Icons.add_a_photo),
-                  tooltip: 'pick Iamge',
-                  onPressed: () {
-                    getImage(ImageSource.camera);
-                  },
+                _buildPickPhotoButton(
+                  title: '사진 찍기',
+                  source: ImageSource.camera,
                 ),
-
-                // 갤러리에서 이미지를 가져오는 버튼
-                FloatingActionButton(
-                  backgroundColor: Colors.red[200],
-                  child: Icon(Icons.wallpaper),
-                  tooltip: 'pick Iamge',
-                  onPressed: () {
-                    getImage(ImageSource.gallery);
-                  },
-                ),
+                _buildPickGalleryButton(
+                  title: '갤러리에서 가져오기',
+                  source: ImageSource.gallery,
+                )
               ],
             ),
             SizedBox(
-              height: 40,
+              height: 20.0,
             ),
             ElevatedButton(
                 onPressed: () {
+                  _buildResultView();
                   print('move camera page');
-                  Get.to(CameraResult());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[200]
+                    backgroundColor: Colors.red[200]
                 ),
                 child: Text('결과보기')
             ),
           ],
         ));
+  }
+  Widget _buildPhotolView() {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        PlantPhotoView(file: _selectedImageFile),
+        _buildAnalyzingText(),
+      ],
+    );
+  }
+
+  Widget _buildAnalyzingText() {
+    if (!_isAnalyzing) {
+      return const SizedBox.shrink();
+    }
+    return const Text('분석중...', style: kAnalyzingTextStyle);
+  }
+
+  Widget _buildPickGalleryButton({
+    required ImageSource source,
+    required String title,
+  }) {
+    return FloatingActionButton(
+      backgroundColor: Colors.red[200],
+      child: Icon(Icons.wallpaper),
+      onPressed: () => _onPickPhoto(source),
+    );
+  }
+
+  Widget _buildPickPhotoButton({
+    required ImageSource source,
+    required String title,
+  }) {
+    return FloatingActionButton(
+      backgroundColor: Colors.red[200],
+      child: Icon(Icons.add_a_photo),
+      onPressed: () => _onPickPhoto(source),
+    );
+  }
+  void _setAnalyzing(bool flag) {
+    setState(() {
+      _isAnalyzing = flag;
+    });
+  }
+
+  void _onPickPhoto(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile == null) {
+      return;
+    }
+
+    final imageFile = File(pickedFile.path);
+    setState(() {
+      _selectedImageFile = imageFile;
+    });
+
+    _analyzeImage(imageFile);
+  }
+
+  void _analyzeImage(File image) {
+    _setAnalyzing(true);
+
+    final imageInput = img.decodeImage(image.readAsBytesSync())!;
+
+    final resultCategory = _classifier.predict(imageInput);
+
+    final result = resultCategory.score >= 0.7
+        ? _ResultStatus.found
+        : _ResultStatus.notFound;
+    final plantLabel = resultCategory.label;
+    final accuracy = resultCategory.score;
+
+    _setAnalyzing(false);
+
+    setState(() {
+      _resultStatus = result;
+      _plantLabel = plantLabel;
+      _accuracy = accuracy;
+    });
+  }
+
+  Widget _buildResultView() {
+    var title = '';
+
+    if (_resultStatus == _ResultStatus.notFound) {
+      title = 'Fail to recognise';
+    } else if (_resultStatus == _ResultStatus.found) {
+      setState(() {
+        title = _plantLabel;
+      });
+    } else {
+      title = '';
+    }
+
+    //
+    var accuracyLabel = '';
+    if (_resultStatus == _ResultStatus.found) {
+      setState(() {
+        accuracyLabel = 'Accuracy: ${(_accuracy * 100).toStringAsFixed(2)}%';
+      });
+    }
+
+    Get.to(() => CameraResult(), arguments: [
+      title?? '신비의'
+    ]);
+
+    return Column(
+      children: [
+        Text(title, style: kResultTextStyle),
+        const SizedBox(height: 10),
+        Text(accuracyLabel, style: kResultRatingTextStyle)
+      ],
+    );
   }
 }
