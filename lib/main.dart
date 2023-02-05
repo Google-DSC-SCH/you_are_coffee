@@ -54,8 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Image.asset('images/coffee/coffee.jpg'),
             Text(
-              '${viewModel.isLogined}',//로그인 여부 확인
+              '${(viewModel.isLogined?'Logged in':'Not Logged in')}',//로그인 여부 확인
               style: Theme.of(context).textTheme.headline4,
+
             ),
             GestureDetector(
               onTap: () async{
@@ -76,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 30,
             ),
             ElevatedButton(
+                style:  ElevatedButton.styleFrom(primary: Colors.brown[200]),
                 onPressed: ()async{
                   await viewModel.logout();
                   setState(() {
@@ -84,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Logout')
             ),
             ElevatedButton(
+                style:  ElevatedButton.styleFrom(primary: Colors.brown[200]),
                 onPressed: () {
                   if(viewModel.isLogined==true) {
                     print('move main page');

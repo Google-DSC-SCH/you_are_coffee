@@ -12,9 +12,13 @@ class CoffeePage extends StatefulWidget {
 }
 
 class _CoffeePageState extends State<CoffeePage> {
+
+
   final Coffee coffee;
   //커피 리뷰 맵을 만들자.
   List<Map<String, dynamic>> _allCoffeeReview=[];
+
+  TextEditingController newCommentController = TextEditingController();
 
   _CoffeePageState( this.coffee){//coffeeID를 입력받기 위해 커피클래스로 받는다.
     this._allCoffeeReview =[
@@ -22,62 +26,69 @@ class _CoffeePageState extends State<CoffeePage> {
         'coffee_id':1,
         'user_id':0,
         'score': 4.0,
-        'comment': '늘 마시는 커피지만 정말 선물 받은것 같아요.'
+        'comment': '쌉스름하고 깔끔해요 '
       },
       {
         'coffee_id':1,
-        'user_id':0,
+        'user_id':12312,
         'score': 3.5,
         'comment': '늘 마시는 커피지만 정말 선물 받은것 같아요.'
       },
       {
         'coffee_id':1,
-        'user_id':0,
+        'user_id':2902,
         'score': 5.0,
-        'comment': '늘 마시는 커피지만 정말 선물 받은것 같아요.'
+        'comment': '최고의 커피 맛이에요 너무맛있어요'
       },
       {
         'coffee_id':1,
-        'user_id':0,
+        'user_id':5678,
+        'score': 2.0,
+        'comment': '쓰기만 하고 무슨맛인지 모르겠어요'
+      },
+      {
+        'coffee_id':1,
+        'user_id':3289,
         'score': 3.0,
         'comment': '늘 맛있게 마시고 있습니다~^^'
       },
       {
         'coffee_id':2,
-        'user_id':0,
+        'user_id':1298998,
         'score': 4.0,
-        'comment': '신선하고 향기로와서 사무실에서 나누고있어요'
+        'comment': '신선하고 향기로와'
       },
       {
         'coffee_id':2,
-        'user_id':0,
+        'user_id':321,
         'score': 4.5,
         'comment': '늘 마시는 커피지만 정말 선물 받은것 같아요.'
       },
       {
         'coffee_id':3,
-        'user_id':0,
+        'user_id':1235003,
         'score': 2.5,
         'comment': '이번엔 조금 그랬어요ㅠ'
       },
       {
         'coffee_id':3,
-        'user_id':0,
+        'user_id':9883748,
         'score': 4.0,
         'comment': '원두 냄새가 구수하네요~'
       },
       {
         'coffee_id':4,
-        'user_id':0,
+        'user_id':657629,
         'score': 3.0,
-        'comment': '항상 맛나게 먹고있습니다 :)'
+        'comment': '맛있어서 금방 없어지네요'
       },
       {
         'coffee_id':4,
-        'user_id':0,
+        'user_id':34994,
         'score': 4.0,
-        'comment': '항상 애용하는 원두입니다 산미 있는 걸 좋아하는 저에겐 딱입니다'
+        'comment': '산미가 있지만 맛있어요 '
       },
+
     ];
   }
   //커피 리뷰리스트 생성함
@@ -97,11 +108,10 @@ class _CoffeePageState extends State<CoffeePage> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.deepOrangeAccent[100],
+        backgroundColor: Colors.red[200],
         title: Text(widget.coffee.name),
       ),
       body: Center(
@@ -150,7 +160,7 @@ class _CoffeePageState extends State<CoffeePage> {
                                       ),
                                       LikeButton(
                                         size: 20,
-                                        isLiked: isLiked,
+                                        isLiked: true,
                                       ),
                                     ],
                                   ),
@@ -173,7 +183,7 @@ class _CoffeePageState extends State<CoffeePage> {
                                     height: 10,
                                   ),
                                   RatingBar(
-                                      initialRating: 0,
+                                      initialRating: 3.5,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
@@ -233,7 +243,7 @@ class _CoffeePageState extends State<CoffeePage> {
                             ),
                           ),
                           RatingBar(
-                              initialRating: 0,
+                              initialRating: 3.5,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
@@ -266,7 +276,8 @@ class _CoffeePageState extends State<CoffeePage> {
                                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width*0.6,
-                                  child: const TextField(
+                                  child: TextField(
+                                    controller: newCommentController,
                                     decoration: InputDecoration(
                                       labelText: 'Reply',
                                       hintText: 'Enter your review',
@@ -290,7 +301,12 @@ class _CoffeePageState extends State<CoffeePage> {
                               IconButton(
                                 icon: const Icon(Icons.mail_outline, size: 40),
                                 color: Colors.grey[600],
-                                onPressed: () {},
+                                onPressed: () {
+                                  //댓글 추가 이벤트 처리하기
+                                  //reviewData
+                                  reviewData.insert(0, CoffeeReview(user_id: 33, coffee_id: coffee.ID, comment: newCommentController.text, score: 3.5));
+                                  setState((){});
+                                },
                               ),
                             ],
                           ),

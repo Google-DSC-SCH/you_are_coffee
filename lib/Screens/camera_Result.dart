@@ -71,6 +71,8 @@ class _CameraResultState extends State<CameraResult> {
             icon: Icon(Icons.arrow_back),
             onPressed: (){
               Get.until((route)=>Get.currentRoute=='/MainPage');
+
+
             },
           ),
         ],

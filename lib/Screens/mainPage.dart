@@ -25,85 +25,86 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
         "name": "아메리카노",
         "imgPath": "images/coffee/americano.jpg",
         "flavor": "쓴맛, 신맛",
-        "description": "아메리카노는 써",
+        "description": "우리나라에서도 가장 인기 있는 메뉴 중 하나",
       },
       {
         "id": 2,
         "name": "카푸치노",
         "imgPath": "images/coffee/cappuccino.jpg",
-        "flavor": "쓴맛, 떫은맛",
-        "description": "카푸치노는 몰라",
+        "flavor": "부드러운맛, 진한맛",
+        "description": "우유와 우유거품이 조화를 이뤄",
       },
       {
         "id": 3,
         "name": "에스프레소",
         "imgPath": "images/coffee/espresso.jpg",
-        "flavor": "쓴맛, 완전 쓴맛",
-        "description": "에스프레소는 완전 써",
+        "flavor": "쓴맛, 순수한 맛",
+        "description": "에스프레소는 조그만 잔에 ",
       },
       {
         "id": 4,
-        "name": "라떼",
-        "imgPath": "images/coffee/latte.jpg",
-        "flavor": "단맛, 꾸덕한맛",
-        "description": "라떼는 달아",
+        "name": "바닐라라떼",
+        "imgPath": "images/coffee/vanillalatte.jpg",
+        "flavor": "단맛, 고소한 맛",
+        "description": "고급진 커피우유 한잔 ",
       },
       {
         "id": 5,
-        "name": "마끼아또",
-        "imgPath": "images/coffee/macciato.jpg",
-        "flavor": "쓴맛, 단맛",
-        "description": "마끼아또는 달콤해",
+        "name": "카라멜마끼아또",
+        "imgPath": "images/coffee/caramelmacchiato.jpg",
+        "flavor": "단맛, 카라멧맛",
+        "description": "밥한공기를 마실수 있다구 ",
       },
       {
         "id": 6,
-        "name": "모카",
+        "name": "카페모카",
         "imgPath": "images/coffee/mocha.jpg",
-        "flavor": "쓴맛, 모카향",
-        "description": "모카는 풍미가 좋아",
+        "flavor": "단맛, 초콜릿맛",
+        "description": "카페인을 너무 많이 마셨나봐요",
       },
       {
         "id": 7,
-        "name": "아메리카노",
-        "imgPath": "images/coffee/americano.jpg",
-        "flavor": "쓴맛, 신맛",
-        "description": "아메리카노는 써",
+        "name": "아포가토",
+        "imgPath": "images/coffee/affogato.jpg",
+        "flavor": "쓴맛, 아이스크림 맛",
+        "description": "아이스크림에 커피를 얹어 드셔보시겠습니까?",
       },
       {
         "id": 8,
-        "name": "카푸치노",
-        "imgPath": "images/coffee/cappuccino.jpg",
-        "flavor": "쓴맛, 떫은맛",
-        "description": "카푸치노는 몰라",
+        "name": "헤이즐넛",
+        "imgPath": "images/coffee/hazelnut.jpg",
+        "flavor": "쓴맛, 고소한맛",
+        "description": "헤이즐넛 없는 헤이즐넛 커피(대신 시럽으로)",
       },
       {
         "id": 9,
-        "name": "에스프레쏘",
-        "imgPath": "images/coffee/espresso.jpg",
-        "flavor": "쓴맛, 완전 쓴맛",
-        "description": "에스프레소는 완전 써",
+        "name": "카페라떼",
+        "imgPath": "images/coffee/caffeLatte.jpg",
+        "flavor": "쓴맛, 고소한맛",
+        "description": "라뗴아트 이쁘게 해주세요",
       },
       {
         "id": 10,
-        "name": "라떼",
-        "imgPath": "images/coffee/latte.jpg",
-        "flavor": "단맛, 꾸덕한맛",
-        "description": "라떼는 달아",
+        "name": "콘파냐",
+        "imgPath": "images/coffee/conpanna.jpg",
+        "flavor": "진한맛, 단맛",
+        "description": "크림이 먹고싶을떈 ",
       },
       {
         "id": 11,
-        "name": "마끼아또",
-        "imgPath": "images/coffee/macciato.jpg",
+        "name": "비엔나 커피",
+        "imgPath": "images/coffee/viennacoffee.jpg",
         "flavor": "쓴맛, 단맛",
-        "description": "마끼아또는 달콤해",
+        "description": "300살된 커피 ",
       },
       {
         "id": 12,
-        "name": "모카",
-        "imgPath": "images/coffee/mocha.jpg",
-        "flavor": "쓴맛, 모카향",
-        "description": "모카는 풍미가 좋아",
+        "name": "화이트 모카",
+        "imgPath": "images/coffee/whitemocha.jpg",
+        "flavor": "초콜릿맛, 쓴맛",
+        "description": "오늘은 화이트초콜릿 ",
       },
+
     ];
   }
   //커피 찾기로 받을 리스트 나중에 초기화 해야함
@@ -174,11 +175,13 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                   print('Americano is clicked');
                 },
 
-                subtitle: RatingBar(
-                    initialRating: 0,
+
+                subtitle:  RatingBar(
+                    initialRating: 3,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
+                    itemSize: 23,
                     ratingWidget: RatingWidget(
                         full: const Icon(Icons.star, color: Colors.orange),
                         half: const Icon(
@@ -202,10 +205,11 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                   print('caffeLatte is clicked');
                 },
                 subtitle: RatingBar(
-                    initialRating: 0,
+                    initialRating: 4.5,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
+                    itemSize: 23,
                     ratingWidget: RatingWidget(
                         full: const Icon(Icons.star, color: Colors.orange),
                         half: const Icon(
@@ -229,10 +233,11 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                   print('cappuccino is clicked');
                 },
                 subtitle: RatingBar(
-                    initialRating: 0,
+                    initialRating: 4,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
+                    itemSize: 23,
                     ratingWidget: RatingWidget(
                         full: const Icon(Icons.star, color: Colors.orange),
                         half: const Icon(
